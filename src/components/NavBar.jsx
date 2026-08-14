@@ -1,6 +1,10 @@
+// built in imports
 import { useState } from "react";
-import { Link2, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { NavLink } from "react-router-dom";
+
+// custom imports
+import { NavLogo } from "./CommonComponents";
 
 export default function Navbar({ onLoginClick, onRegisterClick }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -22,12 +26,7 @@ export default function Navbar({ onLoginClick, onRegisterClick }) {
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left: Brand Logo */}
-          <NavLink to="/" className="flex items-center gap-2">
-            <Link2 className="h-6 w-6 text-[#7C3AED] stroke-[2.5]" />
-            <span className="text-xl font-bold tracking-tight text-[#6D28D9] hover:text-[#550ec8] hover:[text-shadow:0_0_10px_rgba(109,40,217,0.5)] transition-all duration-300 ">
-              Snip.ly
-            </span>
-          </NavLink>
+          <NavLogo />
 
           {/* Center: Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-8">
