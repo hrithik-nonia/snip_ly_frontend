@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Link2 } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 // navbar logo
 export function NavLogo() {
@@ -11,6 +12,39 @@ export function NavLogo() {
           Snip.ly
         </span>
       </NavLink>
+    </>
+  );
+}
+
+// common button
+export function CommonButton({
+  title,
+  isBgColor = false,
+  isIcon = false,
+  iconPositionLeft = true,
+}) {
+  return (
+    <>
+      <button
+        type="button"
+        className={`inline-flex w-full items-center justify-center gap-2 rounded-2xl ${isBgColor ? "bg-[#7C3AED] text-white hover:bg-[#6D28D9] focus:ring-[#7C3AED]/30" : "border border-purple-200/90 bg-white text-[#7C3AED] hover:bg-purple-50/60 focus:ring-[#7C3AED]/20"}  px-6 py-3 text-sm font-semibold shadow-md shadow-purple-500/20 active:scale-[0.98] transition-all focus:outline-none focus:ring-2 `}
+      >
+        {isIcon ? (
+          iconPositionLeft ? (
+            <>
+              <ArrowLeft className="h-4 w-4 stroke-[2.5]" />
+              <span>{title}</span>
+            </>
+          ) : (
+            <>
+              <span>{title}</span>
+              <ArrowRight className="h-4 w-4 stroke-[2.5]" />
+            </>
+          )
+        ) : (
+          <span>{title}</span>
+        )}
+      </button>
     </>
   );
 }

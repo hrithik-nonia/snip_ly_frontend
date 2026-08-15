@@ -1,21 +1,13 @@
 // built in impoets
+import { useLocation } from "react-router-dom";
 
 // custom imports
-import CreateAccountForm from "../components/CreateAccountForm";
-import { NavLogo } from "../components/CommonComponents";
-
+import CommonPage from "../components/CommonPage";
 function RegisterPage() {
+  const location = useLocation();
   return (
     <>
-      <section className="min-h-screen bg-slate-50">
-        <div className="pt-5 pl-10">
-          <NavLogo />
-        </div>
-
-        <div className="flex justify-center items-center">
-          <CreateAccountForm />
-        </div>
-      </section>
+      <CommonPage pathname={location.pathname} />
     </>
   );
 }

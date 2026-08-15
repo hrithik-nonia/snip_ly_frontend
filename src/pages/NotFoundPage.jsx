@@ -1,4 +1,14 @@
+// built in imports
+import { useLocation } from "react-router-dom";
+
+// custom imports
+import CommonPage from "../components/CommonPage";
 function NotFoundPage() {
-  return <>400</>;
+  const location = useLocation();
+  return (
+    <>
+      <CommonPage pathname={location.pathname} />
+    </>
+  );
 }
 export default NotFoundPage;
