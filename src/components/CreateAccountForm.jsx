@@ -1,16 +1,22 @@
+// built in impoets
 import { useState } from "react";
 import { Link2, ArrowRight } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+
+// custom imo=ports
+import authApi from "../api/authApi";
 
 export default function CreateAccountForm({ pathname }) {
-  const [formData, setFormData] = useState({
-    username: "hrithik123",
-    email: "you@gmail.com",
-    password: "",
-  });
+  const initialFormData = {
+    name: "Hritik Nonia",
+    email: "hritik12@gmail.com",
+    password: "hritik@123",
+  };
+  const [formData, setFormData] = useState(initialFormData);
 
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -18,11 +24,44 @@ export default function CreateAccountForm({ pathname }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Hook top-level pe hai ab
+  const { mutate, isPending } = useMutation({
+    mutationFn: (userData) =>
+      pathname === "/loginPage"
+        ? authApi.loginUser(userData)
+        : authApi.createUser(userData),
+    onSuccess: (data) => {
+      toast.success(data?.message || "Success!");
+      setFormData(initialFormData);
+    },
+    onError: (error) => {
+      const detail = error?.response?.data?.detail;
+
+      let message = "Something went wrong";
+
+      if (typeof detail === "string") {
+        // simple string error
+        message = detail;
+      } else if (Array.isArray(detail)) {
+        // Pydantic validation errors — array of objects
+        message = detail.map((err) => err.msg).join(", ");
+      }
+
+      toast.error(message);
+    },
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setIsLoading(true);
-    console.log(formData);
+    if (pathname === "/registerPage") {
+      // Register flow
+      mutate(formData);
+    } else if (pathname === "/loginPage") {
+      // Login flow — username nahi chahiye
+      const { email, password } = formData;
+      mutate({ email, password });
+    }
   };
 
   return (
@@ -52,19 +91,20 @@ export default function CreateAccountForm({ pathname }) {
         {pathname === "/loginPage" ? null : (
           <div className="space-y-1.5">
             <label
-              htmlFor="username"
+              htmlFor="name"
               className="block text-xs font-semibold text-slate-700"
             >
               Username
             </label>
             <input
-              id="username"
-              name="username"
+              id="name"
+              name="name"
               type="text"
-              value={formData.username}
+              value={formData.name}
               onChange={handleChange}
               placeholder="Username"
               className="w-full rounded-xl border border-slate-200/90 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:border-[#7C3AED] focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/20 transition-all"
+              required
             />
             <p className="text-[11px] text-slate-400 font-medium">
               Only letters, numbers and underscore
@@ -88,6 +128,7 @@ export default function CreateAccountForm({ pathname }) {
             onChange={handleChange}
             placeholder="you@gmail.com"
             className="w-full rounded-xl border border-slate-200/90 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:border-[#7C3AED] focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/20 transition-all"
+            required
           />
         </div>
 
@@ -116,16 +157,17 @@ export default function CreateAccountForm({ pathname }) {
             onChange={handleChange}
             placeholder="••••••••"
             className="w-full rounded-xl border border-purple-300 bg-white px-4 py-2.5 text-sm text-slate-800 focus:border-[#7C3AED] focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/20 transition-all"
+            required
           />
         </div>
 
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isPending}
           className="mt-2 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#7C3AED] py-3 px-4 text-sm font-semibold text-white shadow-md shadow-purple-500/20 hover:bg-[#6D28D9] active:scale-[0.98] transition-all focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/30"
         >
-          {isLoading ? (
+          {isPending ? (
             pathname === "/loginPage" ? (
               "Loging Account..."
             ) : (

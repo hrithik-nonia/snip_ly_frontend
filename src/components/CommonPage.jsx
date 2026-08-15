@@ -8,7 +8,7 @@ function CommonPage({ pathname }) {
   const renderContent = () => {
     switch (pathname) {
       case "/registerPage":
-        return <CreateAccountForm />;
+        return <CreateAccountForm pathname={pathname} />;
       case "/linkExpiry410Page":
         return <ErrorPage pathname={pathname} />;
       case "/loginPage":

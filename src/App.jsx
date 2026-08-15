@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import { Route, Routes, Outlet } from "react-router-dom";
 import Lenis from "lenis";
 import { useEffect } from "react";
+import { Toaster } from "sonner";
 
 // custom imports
 const LandingPage = lazy(() => import("./pages/LandingPage"));
@@ -48,6 +49,7 @@ function App() {
   }, []);
   return (
     <>
+      <Toaster position="top-center" />
       <Suspense fallback={<h1>Loading.....</h1>}>
         <Routes>
           <Route path="/" element={<OtherRoutes />}>
