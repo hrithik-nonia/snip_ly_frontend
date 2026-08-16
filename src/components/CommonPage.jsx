@@ -4,6 +4,8 @@
 import { NavLogo } from "./CommonComponents";
 import CreateAccountForm from "./CreateAccountForm";
 import ErrorPage from "./ErrorPage";
+import EmailVerificationForm from "./EmailVerificationForm";
+
 function CommonPage({ pathname }) {
   const renderContent = () => {
     switch (pathname) {
@@ -15,6 +17,8 @@ function CommonPage({ pathname }) {
         return <CreateAccountForm pathname={pathname} />;
       case "/notFoundPage":
         return <ErrorPage />;
+      case "/otpPage":
+        return <EmailVerificationForm />;
       default:
         return null;
     }

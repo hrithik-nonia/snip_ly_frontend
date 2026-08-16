@@ -1,7 +1,7 @@
 // built in impoets
 import { useState } from "react";
 import { Link2, ArrowRight } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -24,6 +24,9 @@ export default function CreateAccountForm({ pathname }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // navigate to otp page
+  const navigate = useNavigate();
+
   // Hook top-level pe hai ab
   const { mutate, isPending } = useMutation({
     mutationFn: (userData) =>
@@ -33,6 +36,7 @@ export default function CreateAccountForm({ pathname }) {
     onSuccess: (data) => {
       toast.success(data?.message || "Success!");
       setFormData(initialFormData);
+      navigate("/otpPage", { state: { email: data?.email } });
     },
     onError: (error) => {
       const detail = error?.response?.data?.detail;

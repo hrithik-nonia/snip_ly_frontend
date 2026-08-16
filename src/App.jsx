@@ -14,6 +14,7 @@ const DashBoardPage = lazy(() => import("./pages/DashBoardPage"));
 const AnalyticsPage = lazy(() => import("./pages/AnalyticsPage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
+const OtpPage = lazy(() => import("./pages/OtpPage"));
 
 import Navbar from "./components/NavBar";
 
@@ -62,6 +63,7 @@ function App() {
           <Route path="/registerPage" element={<RegisterPage />} />
           <Route path="/linkExpiry410Page" element={<LinkExpiry410Page />} />
           <Route path="/notFoundPage" element={<NotFoundPage />} />
+          <Route path="/otpPage" element={<OtpPage />} />
         </Routes>
       </Suspense>
     </>

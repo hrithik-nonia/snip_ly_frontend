@@ -18,5 +18,11 @@ class AuthApi {
     return response.data;
   }
 
+  // POST OTP
+  async otp(data) {
+    const response = await axiosInstance.post("/auth/otp", data)
+    return response.data;
+  }
+
 }
 export default new AuthApi()
