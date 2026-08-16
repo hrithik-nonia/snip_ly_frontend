@@ -27,7 +27,7 @@ export default function CreateAccountForm({ pathname }) {
   // navigate to otp page
   const navigate = useNavigate();
 
-  // Hook top-level pe hai ab
+  // sign up and login request =======================
   const { mutate, isPending } = useMutation({
     mutationFn: (userData) =>
       pathname === "/loginPage"
@@ -36,7 +36,21 @@ export default function CreateAccountForm({ pathname }) {
     onSuccess: (data) => {
       toast.success(data?.message || "Success!");
       setFormData(initialFormData);
-      navigate("/otpPage", { state: { email: data?.email } });
+      if (pathname === "/registerPage") {
+        navigate("/otpPage", { state: { email: data?.email } });
+      } else if (pathname === "/loginPage") {
+        localStorage.setItem("access_token", data?.access_token);
+        localStorage.setItem(
+          "user_data",
+          JSON.stringify({
+            name: data?.username,
+            email: data?.email,
+            created_at: data?.created_at,
+            id: data?.id,
+          }),
+        );
+        navigate("/");
+      }
     },
     onError: (error) => {
       const detail = error?.response?.data?.detail;

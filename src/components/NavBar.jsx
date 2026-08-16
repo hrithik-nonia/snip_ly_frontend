@@ -1,13 +1,25 @@
 // built in imports
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Menu, X, LogOut } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 // custom imports
 import { NavLogo } from "./CommonComponents";
+import { isTokenValid } from "../utils/helperFunctions";
 
 export default function Navbar({ onLoginClick, onRegisterClick }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // route change hone per re render hoga
+  const location = useLocation();
+
+  // login hai ya nahi ye find karne ke liya
+  // location.pathname change hoga tab isLoggedIn recalculate hoga
+  const isLoggedIn = useMemo(
+    () => isTokenValid(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location.pathname],
+  );
 
   const navLinks = [
     { name: "Home", to: "/" },
@@ -50,15 +62,22 @@ export default function Navbar({ onLoginClick, onRegisterClick }) {
           {/* Right: Auth Action Buttons (Desktop) */}
           <div className="hidden md:flex items-center gap-3">
             {/* auth Button */}
-            {authLinks.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={`px-4 py-2 text-sm font-semibold ${link.name === "Login" ? "text-[#6D28D9] bg-[#DDD0FA] hover:bg-[#D4C2F8] border border-[#C4B5FD]/70 rounded-xl transition-colors" : "text-white bg-[#7C3AED] hover:bg-[#6D28D9] rounded-xl shadow-sm hover:shadow-purple-500/25 transition-all"} focus:outline-none focus:ring-2 focus:ring-purple-500/20`}
-              >
-                {link.name}
-              </NavLink>
-            ))}
+            {!isLoggedIn ? (
+              authLinks.map((link) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  className={`px-4 py-2 text-sm font-semibold ${link.name === "Login" ? "text-[#6D28D9] bg-[#DDD0FA] hover:bg-[#D4C2F8] border border-[#C4B5FD]/70 rounded-xl transition-colors" : "text-white bg-[#7C3AED] hover:bg-[#6D28D9] rounded-xl shadow-sm hover:shadow-purple-500/25 transition-all"} focus:outline-none focus:ring-2 focus:ring-purple-500/20`}
+                >
+                  {link.name}
+                </NavLink>
+              ))
+            ) : (
+              <button className="px-4 py-2 text-sm font-semibold bg-red-500/80 hover:bg-red-400 rounded-xl transition-colors text-white  shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 flex gap-1">
+                <LogOut size={18} />
+                <span>Log Out</span>
+              </button>
+            )}
           </div>
 
           {/* Mobile Hamburger Button */}

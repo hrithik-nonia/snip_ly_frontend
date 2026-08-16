@@ -14,7 +14,7 @@ class AuthApi {
 
   // POST login
   async loginUser(userData) {
-    const response = await axiosInstance.post("/auth/", userData);
+    const response = await axiosInstance.post("/auth/login", userData);
     return response.data;
   }
 
