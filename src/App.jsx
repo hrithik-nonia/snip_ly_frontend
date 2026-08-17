@@ -57,13 +57,13 @@ function App() {
             <Route index element={<LandingPage />} />
             <Route path="/dashBoardPage" element={<DashBoardPage />} />
             <Route path="/analyticsPage" element={<AnalyticsPage />} />
-            <Route path="/aboutPage" element={<AboutPage />} />
           </Route>
           <Route path="/loginPage" element={<LoginPage />} />
           <Route path="/registerPage" element={<RegisterPage />} />
           <Route path="/linkExpiry410Page" element={<LinkExpiry410Page />} />
           <Route path="/notFoundPage" element={<NotFoundPage />} />
           <Route path="/otpPage" element={<OtpPage />} />
+          <Route path="/aboutPage" element={<AboutPage />} />
         </Routes>
       </Suspense>
     </>

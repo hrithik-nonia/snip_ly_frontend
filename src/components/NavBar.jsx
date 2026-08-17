@@ -24,7 +24,6 @@ export default function Navbar({ onLoginClick, onRegisterClick }) {
   const navLinks = [
     { name: "Home", to: "/" },
     { name: "Dashboard", to: "/dashBoardPage" },
-    { name: "Analytics", to: "/analyticsPage" },
     { name: "About", to: "/aboutPage" },
   ];
 
