@@ -8,7 +8,7 @@ import MyLinksList from "../components/MyLinksList";
 function DashBoardPage() {
   return (
     <>
-      <section className="bg-slate-50 px-20 space-y-5 my-5">
+      <section className="bg-slate-50 px-20 space-y-5 py-5">
         {/* ShortenUrlCard */}
         <section>
           <ShortenUrlCard />
