@@ -24,5 +24,11 @@ class AuthApi {
     return response.data;
   }
 
+  // POST LOGOUT
+  async logout() {
+    const response = await axiosInstance.post("/auth/logout")
+    return response.data
+  }
+
 }
 export default new AuthApi()

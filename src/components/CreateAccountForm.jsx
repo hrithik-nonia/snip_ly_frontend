@@ -4,6 +4,7 @@ import { Link2, ArrowRight } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { setToken } from "../utils/helperFunctions";
 
 // custom imo=ports
 import authApi from "../api/authApi";
@@ -39,7 +40,7 @@ export default function CreateAccountForm({ pathname }) {
       if (pathname === "/registerPage") {
         navigate("/otpPage", { state: { email: data?.email } });
       } else if (pathname === "/loginPage") {
-        localStorage.setItem("access_token", data?.access_token);
+        setToken(data?.access_token);
         localStorage.setItem(
           "user_data",
           JSON.stringify({

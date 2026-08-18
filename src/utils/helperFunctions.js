@@ -13,3 +13,14 @@ export function isTokenValid() {
     return false; // invalid token
   }
 }
+
+export const setToken = (token) => {
+  localStorage.setItem("access_token", token);
+  window.dispatchEvent(new Event("auth-change"));
+};
+
+export const removeToken = () => {
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("user_data");
+  window.dispatchEvent(new Event("auth-change"));
+};
