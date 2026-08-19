@@ -8,6 +8,7 @@ import MyLinksList from "../components/MyLinksList";
 
 function DashBoardPage() {
   const navigate = useNavigate();
+
   return (
     <>
       <section className="bg-slate-50 px-20 space-y-5 py-5">

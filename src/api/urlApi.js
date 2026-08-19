@@ -16,5 +16,14 @@ class UrlApi {
     const response = await axiosInstance.get("/url/home_stats_data")
     return response.data
   }
+
+  // POST URL PRIVATE ROUTE KE LIYA
+  async createUrlWithAlias(originalUrl, customAlias) {
+    const response = await axiosInstance.post("/url/shorten", {
+      original_url: originalUrl,
+      ...(customAlias && { custom_alias: customAlias })  // optional agar custom alias nahi diya to ye field nahi jayga
+    })
+    return response.data
+  }
 }
 export default new UrlApi
