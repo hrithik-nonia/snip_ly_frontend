@@ -1,6 +1,6 @@
 import { Heart, ArrowRight } from "lucide-react";
 
-export default function AboutPage({ onGithubClick }) {
+export default function AboutPage() {
   const currentYear = new Date().getFullYear();
 
   const offerings = [
@@ -83,14 +83,15 @@ export default function AboutPage({ onGithubClick }) {
           </p>
 
           <div className="pt-2">
-            <button
-              type="button"
-              onClick={onGithubClick}
+            <a
+              href="https://github.com/hrithik-nonia"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-2xs hover:bg-slate-50 transition-colors focus:outline-none"
             >
               <span>View on GitHub</span>
               <ArrowRight className="h-3.5 w-3.5 stroke-[2.5]" />
-            </button>
+            </a>
           </div>
         </section>
       </main>

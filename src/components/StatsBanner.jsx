@@ -1,19 +1,7 @@
-const statsData = [
-  {
-    value: "1M+",
-    label: "LINKS CREATED",
-  },
-  {
-    value: "50M+",
-    label: "TOTAL CLICKS",
-  },
-  {
-    value: "195",
-    label: "COUNTRIES REACHED",
-  },
-];
+import StatsSkeleton from "../skeletonComponents/StatsSkeleton";
 
-export default function StatsBanner({ stats = statsData }) {
+export default function StatsBanner({ stats }) {
+  if (!stats) return <StatsSkeleton />;
   return (
     <section className="w-full bg-[#ECE3FE] py-10 sm:py-14">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
