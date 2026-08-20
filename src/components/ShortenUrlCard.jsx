@@ -18,7 +18,8 @@ export default function ShortenUrlCard() {
     onSuccess: (data) => {
       setShowSuccessLink(true);
       setShowSortedLink(data || "Link Successfully Created");
-      console.log("Success:", data);
+      setLongUrl("");
+      setCustomAlias("");
     },
     onError: (error) => {
       toast.error(error?.response?.data?.detail);
@@ -28,6 +29,12 @@ export default function ShortenUrlCard() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!longUrl.trim()) return;
+
+    // space check
+    if (customAlias && /\s/.test(customAlias)) {
+      toast.error("Alias mein space nahi hona chahiye!");
+      return; // mutate nahi chalega
+    }
 
     // mutation function call
     mutate({ originalUrl: longUrl, customAlias: customAlias });
