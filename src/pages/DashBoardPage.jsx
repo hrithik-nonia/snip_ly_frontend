@@ -1,7 +1,9 @@
 // built in imports
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../context/appContext";
+import { toast } from "sonner";
 
 // custom imports
 import ShortenUrlCard from "../components/ShortenUrlCard";
@@ -17,6 +19,7 @@ function DashBoardPage() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const queryClient = useQueryClient();
+  const { setBaseUrl } = useContext(UserContext);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -41,6 +44,14 @@ function DashBoardPage() {
   const BASEURL = data?.BASE_URL ?? null;
   const totalLinks = stats?.total_links ?? 0;
 
+  // base url ko context me dala taki kisi aur component me use karsakun
+  useEffect(() => {
+    if (BASEURL) {
+      setBaseUrl(BASEURL);
+    }
+    // eslint-disable-next-line
+  }, []);
+
   const links = (data?.links?.links ?? []).map((link) => ({
     ...link,
     isExpired:
@@ -55,7 +66,7 @@ function DashBoardPage() {
       queryClient.invalidateQueries({ queryKey: ["userDashBoardData"] });
     },
     onError: (error) => {
-      console.error("Delete failed:", error);
+      toast.error(error?.message);
     },
   });
 
@@ -82,7 +93,9 @@ function DashBoardPage() {
             <MyLinksListSkeleton />
           ) : (
             <MyLinksList
-              onAnalyticsClick={() => navigate("/analyticsPage")}
+              onAnalyticsClick={(link) => {
+                navigate(`/analyticsPage/${link.short_code}`);
+              }}
               links={links}
               setLimit={setLimit}
               BASEURL={BASEURL}

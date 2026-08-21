@@ -1,12 +1,6 @@
 import { BarChart2, User, Sun } from "lucide-react";
 
-export default function AnalyticsStatsRow({
-  stats = {
-    totalClicks: "245",
-    uniqueVisitors: "180",
-    todaysClicks: "12",
-  },
-}) {
+export default function AnalyticsStatsRow({ stats = {} }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 w-full">
       {/* Card 1: Total Clicks */}
@@ -16,7 +10,7 @@ export default function AnalyticsStatsRow({
         </div>
         <div>
           <div className="text-2xl font-bold tracking-tight text-slate-900">
-            {stats.totalClicks}
+            {stats?.totalClicks}
           </div>
           <p className="text-xs font-medium text-slate-500 mt-0.5">
             Total Clicks
@@ -31,7 +25,7 @@ export default function AnalyticsStatsRow({
         </div>
         <div>
           <div className="text-2xl font-bold tracking-tight text-slate-900">
-            {stats.uniqueVisitors}
+            {stats?.uniqueVisitor}
           </div>
           <p className="text-xs font-medium text-slate-500 mt-0.5">
             Unique Visitors
@@ -46,7 +40,7 @@ export default function AnalyticsStatsRow({
         </div>
         <div>
           <div className="text-2xl font-bold tracking-tight text-slate-900">
-            {stats.todaysClicks}
+            {stats?.todaysClicks}
           </div>
           <p className="text-xs font-medium text-slate-500 mt-0.5">
             Today's Clicks

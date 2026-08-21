@@ -56,7 +56,10 @@ function App() {
           <Route path="/" element={<OtherRoutes />}>
             <Route index element={<LandingPage />} />
             <Route path="/dashBoardPage" element={<DashBoardPage />} />
-            <Route path="/analyticsPage" element={<AnalyticsPage />} />
+            <Route
+              path="/analyticsPage/:short_code"
+              element={<AnalyticsPage />}
+            />
           </Route>
           <Route path="/loginPage" element={<LoginPage />} />
           <Route path="/registerPage" element={<RegisterPage />} />

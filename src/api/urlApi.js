@@ -41,5 +41,13 @@ class UrlApi {
     });
     return response.data;
   }
+
+  // GET ANALYTICS LINK DATA
+  async get_analytics_data(short_code) {
+    const response = await axiosInstance.get("/url/link_analytics", {
+      params: { short_code }
+    })
+    return response.data
+  }
 }
 export default new UrlApi

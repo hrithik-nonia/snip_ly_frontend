@@ -1,13 +1,15 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
-const countryData = [
-  { name: "India", value: 45, color: "#7C3AED" },
-  { name: "USA", value: 30, color: "#8B5CF6" },
-  { name: "UK", value: 15, color: "#A78BFA" },
-  { name: "Others", value: 10, color: "#DDD6FE" },
-];
+const COLORS = ["#7C3AED", "#8B5CF6", "#A78BFA", "#C4B5FD", "#DDD6FE"];
 
-export default function TopCountriesChart({ data = countryData }) {
+export default function TopCountriesChart({ topCountries = [] }) {
+  const total = topCountries.reduce((sum, c) => sum + c.count, 0);
+
+  const countryData = topCountries.map((item, idx) => ({
+    name: item.country,
+    value: total > 0 ? Math.round((item.count / total) * 100) : 0,
+    color: COLORS[idx % COLORS.length],
+  }));
   return (
     <div className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm h-full">
       {/* Title */}
@@ -22,7 +24,7 @@ export default function TopCountriesChart({ data = countryData }) {
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
-                data={data}
+                data={countryData}
                 cx="50%"
                 cy="50%"
                 innerRadius={0}
@@ -32,7 +34,7 @@ export default function TopCountriesChart({ data = countryData }) {
                 stroke="#FFFFFF"
                 strokeWidth={2}
               >
-                {data.map((entry, index) => (
+                {countryData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
@@ -54,7 +56,7 @@ export default function TopCountriesChart({ data = countryData }) {
 
         {/* Right: Legend List */}
         <div className="flex-1 space-y-3">
-          {data.map((item, idx) => (
+          {countryData.map((item, idx) => (
             <div
               key={idx}
               className="flex items-center justify-between text-sm font-semibold"

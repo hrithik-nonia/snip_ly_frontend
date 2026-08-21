@@ -8,31 +8,6 @@ import {
   Tooltip,
 } from "recharts";
 
-const mockDataMap = {
-  "7 Days": [
-    { day: "Mon", clicks: 25 },
-    { day: "Tue", clicks: 42 },
-    { day: "Wed", clicks: 35 },
-    { day: "Thu", clicks: 58 },
-    { day: "Fri", clicks: 50 },
-    { day: "Sat", clicks: 75 },
-    { day: "Sun", clicks: 85 },
-  ],
-  "30 Days": [
-    { day: "Week 1", clicks: 120 },
-    { day: "Week 2", clicks: 240 },
-    { day: "Week 3", clicks: 190 },
-    { day: "Week 4", clicks: 380 },
-  ],
-  "All Time": [
-    { day: "Jan", clicks: 300 },
-    { day: "Feb", clicks: 500 },
-    { day: "Mar", clicks: 450 },
-    { day: "Apr", clicks: 800 },
-    { day: "May", clicks: 1200 },
-  ],
-};
-
 // Custom Tooltip Component
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -46,10 +21,31 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-export default function ClicksOverTimeRecharts() {
+export default function ClicksOverTimeRecharts({ clicksOverTime = [] }) {
   const [activeRange, setActiveRange] = useState("7 Days");
 
-  const data = mockDataMap[activeRange] || mockDataMap["7 Days"];
+  const groupByDate = (clicks, days) => {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - days);
+
+    const filtered = clicks.filter((c) => new Date(c.clicked_at) >= cutoff);
+
+    const grouped = {};
+    filtered.forEach((c) => {
+      const day = new Date(c.clicked_at).toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+      });
+      grouped[day] = (grouped[day] || 0) + 1;
+    });
+
+    return Object.entries(grouped).map(([day, clicks]) => ({ day, clicks }));
+  };
+
+  const data =
+    activeRange === "7 Days"
+      ? groupByDate(clicksOverTime, 7)
+      : groupByDate(clicksOverTime, 30);
 
   return (
     <div className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm">
@@ -61,7 +57,7 @@ export default function ClicksOverTimeRecharts() {
 
         {/* Time Range Selector */}
         <div className="inline-flex items-center gap-1 rounded-xl bg-slate-100/80 p-1 text-xs font-semibold">
-          {["7 Days", "30 Days", "All Time"].map((range) => (
+          {["7 Days", "30 Days"].map((range) => (
             <button
               key={range}
               type="button"
