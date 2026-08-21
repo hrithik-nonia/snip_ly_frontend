@@ -61,9 +61,12 @@ function DashBoardPage() {
 
   const { mutate: deleteLink, isPending: isDeleting } = useMutation({
     mutationFn: (short_code) => urlApi.deleteLink(short_code),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      const message = data?.message || "Success";
+      const shortCode = data?.short_code || null;
       // cache invalidate karo — list refresh ho jayegi
       queryClient.invalidateQueries({ queryKey: ["userDashBoardData"] });
+      toast.success(`${message} With (${shortCode}) Short Code`);
     },
     onError: (error) => {
       toast.error(error?.message);
