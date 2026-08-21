@@ -33,5 +33,13 @@ class UrlApi {
     })
     return response.data
   }
+
+  // DELETE LINK
+  async deleteLink(short_code) {
+    const response = await axiosInstance.delete("/url/delete", {
+      params: { short_code }
+    });
+    return response.data;
+  }
 }
 export default new UrlApi

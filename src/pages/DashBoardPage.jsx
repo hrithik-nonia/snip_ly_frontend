@@ -1,6 +1,6 @@
 // built in imports
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 
 // custom imports
@@ -16,6 +16,7 @@ function DashBoardPage() {
   const [limit, setLimit] = useState(5); // sirf limit chahiye
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -38,8 +39,25 @@ function DashBoardPage() {
 
   const stats = data?.stats ?? null;
   const BASEURL = data?.BASE_URL ?? null;
-  const links = data?.links?.links ?? [];
   const totalLinks = stats?.total_links ?? 0;
+
+  const links = (data?.links?.links ?? []).map((link) => ({
+    ...link,
+    isExpired:
+      !link.is_active ||
+      (link.expires_at ? new Date(link.expires_at) < new Date() : false),
+  }));
+
+  const { mutate: deleteLink, isPending: isDeleting } = useMutation({
+    mutationFn: (short_code) => urlApi.deleteLink(short_code),
+    onSuccess: () => {
+      // cache invalidate karo — list refresh ho jayegi
+      queryClient.invalidateQueries({ queryKey: ["userDashBoardData"] });
+    },
+    onError: (error) => {
+      console.error("Delete failed:", error);
+    },
+  });
 
   return (
     <>
@@ -71,6 +89,8 @@ function DashBoardPage() {
               totalLinks={totalLinks}
               search={search}
               setSearch={setSearch}
+              onDeleteClick={deleteLink}
+              isDeleting={isDeleting}
             />
           )}
         </section>

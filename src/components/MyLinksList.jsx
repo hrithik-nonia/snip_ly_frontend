@@ -9,6 +9,8 @@ export default function MyLinksList({
   totalLinks,
   search,
   setSearch,
+  onDeleteClick,
+  isDeleting,
 }) {
   const [copiedId, setCopiedId] = useState(null);
 
@@ -17,7 +19,6 @@ export default function MyLinksList({
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
   };
-  console.log(links);
 
   const handleLoadMoreBtn = () => {
     setLimit((prev) => prev + 5);
@@ -63,7 +64,7 @@ export default function MyLinksList({
                     target="_blank"
                     rel="noreferrer"
                     className={`font-bold text-base transition-colors ${
-                      !link.is_active
+                      link.isExpired
                         ? "line-through text-slate-400"
                         : "text-[#7C3AED] hover:underline"
                     }`}
@@ -72,7 +73,7 @@ export default function MyLinksList({
                   </a>
 
                   {/* Copy Inline Icon */}
-                  {link.is_active && (
+                  {!link.isExpired && (
                     <button
                       type="button"
                       onClick={() =>
@@ -90,7 +91,7 @@ export default function MyLinksList({
                   )}
 
                   {/* Expired Badge */}
-                  {!link.is_active && (
+                  {link.isExpired && (
                     <span className="rounded-md bg-rose-100 px-2 py-0.5 text-xs font-semibold text-rose-700">
                       Expired
                     </span>
@@ -133,8 +134,9 @@ export default function MyLinksList({
                   <button
                     type="button"
                     className="rounded-lg border border-rose-200/90 bg-white px-3 py-1.5 text-xs font-semibold text-rose-600 shadow-2xs hover:bg-rose-50 transition-colors focus:outline-none"
+                    onClick={() => onDeleteClick(link.short_code)}
                   >
-                    Delete
+                    {isDeleting ? "Deleting..." : "Delete"}
                   </button>
                 </div>
               </div>
