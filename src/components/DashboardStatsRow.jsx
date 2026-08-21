@@ -1,12 +1,13 @@
 import { Link2, BarChart2, CheckCircle2 } from "lucide-react";
+import { formatCount } from "../utils/helperFunctions";
 
-export default function DashboardStatsRow({
-  stats = {
-    totalLinks: "24",
-    totalClicks: "1.2K",
-    activeLinks: "18",
-  },
-}) {
+export default function DashboardStatsRow({ stats }) {
+  if (!stats) return null;
+
+  const totalLinks = formatCount(stats.total_links);
+  const totalClicks = formatCount(stats.total_clicks);
+  const activeLinks = formatCount(stats.active_links);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 w-full">
       {/* Card 1: Total Links */}
@@ -16,7 +17,7 @@ export default function DashboardStatsRow({
         </div>
         <div>
           <div className="text-2xl font-bold tracking-tight text-slate-900">
-            {stats.totalLinks}
+            {totalLinks}
           </div>
           <p className="text-xs font-medium text-slate-500 mt-0.5">
             Total Links
@@ -31,7 +32,7 @@ export default function DashboardStatsRow({
         </div>
         <div>
           <div className="text-2xl font-bold tracking-tight text-slate-900">
-            {stats.totalClicks}
+            {totalClicks}
           </div>
           <p className="text-xs font-medium text-slate-500 mt-0.5">
             Total Clicks
@@ -46,7 +47,7 @@ export default function DashboardStatsRow({
         </div>
         <div>
           <div className="text-2xl font-bold tracking-tight text-slate-900">
-            {stats.activeLinks}
+            {activeLinks}
           </div>
           <p className="text-xs font-medium text-slate-500 mt-0.5">
             Active Links

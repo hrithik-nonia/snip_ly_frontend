@@ -25,5 +25,13 @@ class UrlApi {
     })
     return response.data
   }
+
+  // GET USER DATA
+  async getUserDashBoardData(page = 1, limit = 5, search = "") {
+    const response = await axiosInstance.get("/url/get_user_data", {
+      params: { page, limit, search }
+    })
+    return response.data
+  }
 }
 export default new UrlApi
