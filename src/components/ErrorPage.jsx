@@ -64,7 +64,9 @@ export default function ErrorPage({ pathname }) {
           title="Create Your Own Link"
           isIcon={true}
           iconPositionLeft={false}
-          onClick={() => navigate("/")}
+          onClick={() =>
+            (window.location.href = "https://snip-ly-frontend.vercel.app")
+          }
         />
       </div>
     </div>
