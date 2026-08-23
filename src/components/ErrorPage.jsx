@@ -1,10 +1,12 @@
 // built in imports
 import { AlarmClock, Link2, HeartOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 // custom imports
 import { CommonButton } from "./CommonComponents";
 
 export default function ErrorPage({ pathname }) {
+  const navigate = useNavigate();
   return (
     <div className="flex min-h-[500px] w-full flex-col items-center justify-center p-6 text-center">
       {pathname === "/linkExpiry410Page" ? (
@@ -44,7 +46,12 @@ export default function ErrorPage({ pathname }) {
       {/* Action Buttons */}
       <div className="mt-8 flex w-full max-w-xs flex-col gap-3">
         {/* Go to Homepage Button */}
-        <CommonButton isBgColor={true} title="Go to Homepage" isIcon={true} />
+        <CommonButton
+          isBgColor={true}
+          title="Go to Homepage"
+          isIcon={true}
+          onclick={() => navigate("/")}
+        />
 
         {/* Create Your Own Link Button */}
         <CommonButton
