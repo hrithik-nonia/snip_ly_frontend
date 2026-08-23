@@ -50,8 +50,6 @@ function AnalyticsPage() {
       }
     : null;
 
-  console.log(data);
-
   const { mutate: deleteLink, isPending: isDeleting } = useMutation({
     mutationFn: (short_code) => urlApi.deleteLink(short_code),
     onSuccess: () => {
