@@ -44,13 +44,27 @@ export default function ErrorPage({ pathname }) {
       {/* Action Buttons */}
       <div className="mt-8 flex w-full max-w-xs flex-col gap-3">
         {/* Go to Homepage Button */}
-        <CommonButton isBgColor={true} title="Go to Homepage" isIcon={true} />
+        <CommonButton
+          isBgColor={true}
+          title="Go to Homepage"
+          isIcon={true}
+          onclick={() => {
+            if (window.history.length > 1) {
+              window.history.back();
+            } else {
+              window.location.href = "https://snip-ly-frontend.vercel.app";
+            }
+          }}
+        />
 
         {/* Create Your Own Link Button */}
         <CommonButton
           title="Create Your Own Link"
           isIcon={true}
           iconPositionLeft={false}
+          onClick={() =>
+            (window.location.href = "https://snip-ly-frontend.vercel.app")
+          }
         />
       </div>
     </div>
