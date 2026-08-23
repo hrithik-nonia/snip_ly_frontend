@@ -1,10 +1,12 @@
 // built in imports
 import { AlarmClock, Link2, HeartOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 // custom imports
 import { CommonButton } from "./CommonComponents";
 
 export default function ErrorPage({ pathname }) {
+  const navigate = useNavigate();
   return (
     <div className="flex min-h-[500px] w-full flex-col items-center justify-center p-6 text-center">
       {pathname === "/linkExpiry410Page" ? (
@@ -62,9 +64,7 @@ export default function ErrorPage({ pathname }) {
           title="Create Your Own Link"
           isIcon={true}
           iconPositionLeft={false}
-          onClick={() =>
-            (window.location.href = "https://snip-ly-frontend.vercel.app")
-          }
+          onClick={() => navigate("https://snip-ly-frontend.vercel.app")}
         />
       </div>
     </div>
