@@ -22,10 +22,13 @@ async function initAuth() {
 
   try {
     // ← axiosInstance ki jagah plain fetch use karo
-    const response = await fetch("/api/auth/refresh", {
-      method: "POST",
-      credentials: "include", // cookie jayegi
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/auth/refresh`,
+      {
+        method: "POST",
+        credentials: "include", // cookie jayegi
+      },
+    );
 
     if (!response.ok) throw new Error("Refresh failed");
 
